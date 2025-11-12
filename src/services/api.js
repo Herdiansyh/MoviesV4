@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://690963622d902d0651b38e85.mockapi.io/api/v1/movies";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const filmAPI = {
   // Fetch semua data

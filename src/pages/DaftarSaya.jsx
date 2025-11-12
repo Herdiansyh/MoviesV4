@@ -1,7 +1,6 @@
 // src/pages/DaftarSaya.jsx
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
-import MovieSection from "../components/MovieSection";
 import Footer from "../components/Footer";
 import { useMyList } from "../context/MyListContext";
 import DaftarSayaFilm from "../components/DaftarSayaFilm";
