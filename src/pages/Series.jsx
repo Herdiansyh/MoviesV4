@@ -1,20 +1,35 @@
 // src/pages/Series.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import MovieSection from "../components/MovieSection";
-import { useFilmData } from "../hooks/useFilmData";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "../store/movieSlice";
 
-export default function Series({ footer, datahero }) {
-  const { data, loading, error } = useFilmData();
+export default function Series({ footer }) {
+  const dispatch = useDispatch();
 
+  const {
+    dataMovies,
+    topMovies,
+    newMovies,
+    imgVertikal,
+    // trendingMovies,
+    dataHero,
+    loading,
+    error,
+  } = useSelector((state) => state.movies);
+
+  useEffect(() => {
+    dispatch(fetchMovies());
+  }, [dispatch]);
   // Acak urutan data biar tampilannya dinamis
-  const datamovies = [...data.dataMovies].sort(() => Math.random() - 0.5);
-  const topmovies = [...data.topMovies].sort(() => Math.random() - 0.5);
-  const newmovies = [...data.newReleaseMovies].sort(() => Math.random() - 0.5);
-  const imgvertikal = [...data.imgVertikal].sort(() => Math.random() - 0.5);
-  const dataheroRandom = [...datahero].sort(() => Math.random() - 0.5);
+  const datamovies = [...dataMovies].sort(() => Math.random() - 0.5);
+  const topmovies = [...topMovies].sort(() => Math.random() - 0.5);
+  const newmovies = [...newMovies].sort(() => Math.random() - 0.5);
+  const imgvertikal = [...imgVertikal].sort(() => Math.random() - 0.5);
+  const dataheroRandom = [...dataHero].sort(() => Math.random() - 0.5);
 
   // Tampilan loading
   if (loading) {

@@ -1,75 +1,71 @@
 import React from "react";
-import { useMyList } from "../context/MyListContext";
 import { Link } from "react-router-dom";
-import { useFilmData } from "../hooks/useFilmData";
+import { useMyList } from "../context/MyListContext";
 import MovieSection from "./MovieSection";
+import { useSelector } from "react-redux";
 
 export default function PopupDetailMovies({ movie, onClose }) {
   const { addToMyList, myList, removeFromMyList } = useMyList();
   const isInMyList = myList.some((m) => m.title === movie.title);
 
-  const { data } = useFilmData();
-  const datamovies = data.dataMovies || [];
-
   const handleAdd = () => addToMyList(movie);
   const handleRemove = () => removeFromMyList(movie.title);
 
+  const { dataMovies } = useSelector((state) => state.movies);
   const safeCast = Array.isArray(movie.cast)
     ? movie.cast
     : movie.cast
     ? [movie.cast]
     : [];
-  const safeEpisodes = Array.isArray(movie.episodes) ? movie.episodes : [];
 
+  const safeEpisodes = Array.isArray(movie.episodes) ? movie.episodes : [];
   return (
-    <div className="fixed  inset-0 z-[100]  flex items-center justify-center bg-black/80 p-4">
-      <div className="relative md:w-full w-1xl max-w-4xl max-h-[85vh] bg-[#181A1C] rounded-lg overflow-hidden shadow-2xl">
-        {/* Tombol Tutup */}
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/80 p-2 sm:p-4">
+      <div className="relative w-full max-w-4xl bg-[#181A1C] rounded-lg overflow-hidden shadow-2xl">
+        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute hover:cursor-pointer right-4 top-4 z-10 w-10 h-10 flex items-center justify-center text-white text-2xl rounded-full bg-[rgba(0,0,0,0.4)] hover:bg-[rgba(0,0,0,0.7)] backdrop-blur-sm"
+          className="absolute right-3 top-3 z-10 w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center text-white text-xl rounded-full bg-black/40 hover:bg-black/70"
         >
           ✕
         </button>
 
-        {/* Konten Scrollable */}
-        <div className="overflow-y-auto max-h-[95vh]">
+        {/* Scrollable Content */}
+        <div className="overflow-y-auto max-h-[90vh] sm:max-h-[95vh]">
           {/* Hero Section */}
-          <div className="relative h-[600px] w-full">
+          <div className="relative h-[240px] sm:h-[360px] md:h-[520px] w-full">
             <img
               src={movie.image}
-              className="w-full h-full object-top object-cover"
               alt={movie.title}
+              className="w-full h-full object-cover object-top"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#181A1C] via-transparent to-transparent" />
 
-            {/* Judul dan Aksi */}
-            <div className="absolute bottom-8 left-8 right-8">
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4 text-white">
+            {/* Title & Actions */}
+            <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-white mb-3">
                 {movie.title}
               </h1>
 
-              <div className="flex gap-3 flex-wrap">
-                {/* Tombol Play */}
+              <div className="flex flex-wrap gap-2 sm:gap-3">
                 <Link
                   to="/profile"
-                  className="flex items-center gap-2 bg-blue-800 text-white font-semibold px-5 py-2 rounded-full hover:bg-blue-700 transition"
+                  className="flex items-center gap-2 bg-blue-700 hover:bg-blue-600 text-white text-sm sm:text-base font-semibold px-4 py-2 rounded-full"
                 >
-                  <i className="fi fi-sr-play text-white"></i> Putar
+                  <i className="fi fi-sr-play"></i> Putar
                 </Link>
 
-                {/* Tambah / Hapus dari Daftar Saya */}
                 {isInMyList ? (
                   <button
                     onClick={handleRemove}
-                    className="flex items-center gap-2 border border-gray-400 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition"
+                    className="flex items-center gap-2 border border-gray-400 text-white text-sm sm:text-base px-4 py-2 rounded-full hover:bg-gray-700"
                   >
                     <i className="fi fi-sr-check"></i> Di Daftar Saya
                   </button>
                 ) : (
                   <button
                     onClick={handleAdd}
-                    className="flex items-center gap-2 border border-gray-400 text-white px-5 py-2 rounded-full hover:bg-gray-700 transition"
+                    className="flex items-center gap-2 border border-gray-400 text-white text-sm sm:text-base px-4 py-2 rounded-full hover:bg-gray-700"
                   >
                     <i className="fi fi-sr-plus"></i> Tambah ke Daftar Saya
                   </button>
@@ -77,12 +73,13 @@ export default function PopupDetailMovies({ movie, onClose }) {
               </div>
             </div>
           </div>
+
           {/* Content Section */}
-          <div className="p-8 text-gray-300 space-y-6">
-            {/* Info Film */}
-            <div className="flex flex-wrap gap-4 text-sm sm:text-base">
+          <div className="p-4 sm:p-6 md:p-8 text-gray-300 space-y-5">
+            {/* Info */}
+            <div className="flex flex-wrap gap-2 text-xs sm:text-sm md:text-base">
               <span className="px-3 py-1 bg-gray-700 rounded-full">
-                Rating: ⭐ {movie.rating || "N/A"}
+                ⭐ {movie.rating || "N/A"}
               </span>
               <span className="px-3 py-1 bg-gray-700 rounded-full">
                 {movie.genre || "Drama"}
@@ -95,48 +92,46 @@ export default function PopupDetailMovies({ movie, onClose }) {
               </span>
             </div>
 
-            {/* Deskripsi */}
+            {/* Sinopsis */}
             <div>
-              <h2 className="text-xl font-semibold mb-2 text-white">
+              <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
                 Sinopsis
               </h2>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="leading-relaxed text-sm sm:text-base">
                 {movie.sinopsis ||
                   movie.description ||
-                  "Film ini menceritakan kisah yang penuh emosi dan aksi, di mana karakter utama harus menghadapi tantangan besar untuk mencapai tujuannya."}
+                  "Deskripsi belum tersedia."}
               </p>
             </div>
 
-            {/* Pemeran */}
+            {/* Cast */}
             <div>
-              <h2 className="text-xl font-semibold mb-2 text-white">
+              <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
                 Pemeran Utama
               </h2>
-              <ul className="list-disc list-inside text-gray-300">
-                {safeCast.length > 0 ? (
-                  safeCast.map((actor, idx) => <li key={idx}>{actor}</li>)
-                ) : (
-                  <li>Tidak diketahui</li>
-                )}
+              <ul className="list-disc list-inside text-sm sm:text-base">
+                {safeCast.length > 0
+                  ? safeCast.map((actor, idx) => <li key={idx}>{actor}</li>)
+                  : "Tidak diketahui"}
               </ul>
             </div>
 
-            {/* Episode */}
+            {/* Episodes */}
             {safeEpisodes.length > 0 && (
               <div>
-                <h2 className="text-xl font-semibold mb-2 text-white">
+                <h2 className="text-lg sm:text-xl font-semibold text-white mb-2">
                   Episode ({safeEpisodes.length})
                 </h2>
-                <div className="grid sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {safeEpisodes.map((ep, idx) => (
                     <div
                       key={idx}
-                      className="bg-[#202325] p-4 rounded-lg hover:bg-[#2a2d2f] transition"
+                      className="bg-[#202325] p-3 sm:p-4 rounded-lg hover:bg-[#2a2d2f]"
                     >
-                      <h3 className="font-semibold text-white mb-1">
+                      <h3 className="font-semibold text-white text-sm sm:text-base mb-1">
                         Episode {idx + 1}: {ep.title || "Tanpa Judul"}
                       </h3>
-                      <p className="text-sm text-gray-400">
+                      <p className="text-xs sm:text-sm text-gray-400">
                         {ep.description || "Deskripsi belum tersedia."}
                       </p>
                     </div>
@@ -144,14 +139,15 @@ export default function PopupDetailMovies({ movie, onClose }) {
                 </div>
               </div>
             )}
-          </div>{" "}
-          <div className="px-20 text-white">
+          </div>
+
+          {/* Recommendation */}
+          <div className="px-4 sm:px-10 md:px-20 pb-8 text-white">
             <MovieSection
-              className="pt-0"
-              title="Rekomendasi film "
-              movies={datamovies}
+              title="Rekomendasi Film"
+              movies={dataMovies}
               type="movies"
-            />{" "}
+            />
           </div>
         </div>
       </div>

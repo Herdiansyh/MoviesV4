@@ -1,24 +1,27 @@
 // src/pages/Home.jsx
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import MovieSection from "../components/MovieSection";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
-import { filmAPI } from "../services/api"; // import api.js
+import { useDispatch, useSelector } from "react-redux";
+import { fetchMovies } from "../store/movieSlice";
 
 export default function Home({ footer }) {
   const navigate = useNavigate();
   const hasChecked = useRef(false);
+  const dispatch = useDispatch();
 
-  // State untuk tiap kategori
-  const [dataHero, setDataHero] = useState([]);
-  const [imgVertikal, setImgVertikal] = useState([]);
-  const [topMovies, setTopMovies] = useState([]);
-  const [dataMovies, setDataMovies] = useState([]);
-  const [newMovies, setNewMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const {
+    dataHero,
+    imgVertikal,
+    topMovies,
+    dataMovies,
+    newMovies,
+    loading,
+    error,
+  } = useSelector((state) => state.movies);
 
   // Cek autentikasi user saat pertama kali halaman dimuat
   useEffect(() => {
@@ -34,31 +37,8 @@ export default function Home({ footer }) {
 
   // Fetch data dari MockAPI
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [hero, vertikal, top, movies, newReleases] = await Promise.all([
-          filmAPI.getHeroData(),
-          filmAPI.getMovies(), // Jika ada kategori imgVertikal, buat fungsi di api.js juga
-          filmAPI.getTopMovies(),
-          filmAPI.getMovies(),
-          filmAPI.getNewReleases(),
-          filmAPI.getVertikalMovies(),
-        ]);
-
-        setDataHero(hero);
-        setImgVertikal(vertikal);
-        setTopMovies(top);
-        setDataMovies(movies);
-        setNewMovies(newReleases);
-        setLoading(false);
-      } catch (err) {
-        setError(err.message || "Error fetching data");
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+    dispatch(fetchMovies());
+  }, [dispatch]);
 
   if (loading) {
     return (

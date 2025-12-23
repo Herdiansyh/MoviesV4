@@ -6,6 +6,7 @@ import { createPortal } from "react-dom"; // ⬅️ Tambahkan ini
 export default function PopupMovie({ movie, onClose }) {
   const { addToMyList, myList, removeFromMyList } = useMyList();
   const isInMyList = myList.some((m) => m.title === movie.title);
+  const savedMovie = myList.find((m) => m.title === movie.title);
 
   const [showDetail, setShowDetail] = useState(false);
 
@@ -16,7 +17,9 @@ export default function PopupMovie({ movie, onClose }) {
 
   const handleRemove = (e) => {
     e.stopPropagation();
-    removeFromMyList(movie.title);
+    if (savedMovie) {
+      removeFromMyList(savedMovie.id, movie.title);
+    }
   };
 
   const handleAdd = (e) => {
