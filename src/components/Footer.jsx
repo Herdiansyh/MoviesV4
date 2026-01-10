@@ -9,7 +9,7 @@ export default function Footer({ footers }) {
   };
 
   return (
-    <footer className="bg-[#181A1C] border-t border-gray-700  px-10 py-12 mt-12 text-gray-300">
+    <footer className="bg-[#181A1C] border-t border-gray-700  md:px-24 px-10 py-12 mt-12 text-gray-300">
       <div className="grid md:grid-cols-4 gap-8">
         <div className="flex flex-col">
           <img src="/img/logoChil.png" alt="Logo Chill" className="mb-4 w-32" />

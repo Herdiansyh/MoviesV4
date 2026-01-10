@@ -7,10 +7,15 @@ import { useSelector } from "react-redux";
 export default function PopupDetailMovies({ movie, onClose }) {
   const { addToMyList, myList, removeFromMyList } = useMyList();
   const isInMyList = myList.some((m) => m.title === movie.title);
+  const savedMovie = myList.find((m) => m.title === movie.title);
 
   const handleAdd = () => addToMyList(movie);
-  const handleRemove = () => removeFromMyList(movie.title);
-
+  const handleRemove = (e) => {
+    e.stopPropagation();
+    if (savedMovie) {
+      removeFromMyList(savedMovie.id, movie.title);
+    }
+  };
   const { dataMovies } = useSelector((state) => state.movies);
   const safeCast = Array.isArray(movie.cast)
     ? movie.cast
