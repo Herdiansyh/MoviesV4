@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useMyList } from "../context/MyListContext";
+import { useMyList } from "../../context/MyListContext";
 import MovieSection from "./MovieSection";
 import { useSelector } from "react-redux";
 

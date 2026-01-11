@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ButtonMasuk from "./ButtonMasuk";
+import { profileAPI } from "../services/profileService";
 
 export default function FormLogin() {
   const navigate = useNavigate();
@@ -11,26 +12,28 @@ export default function FormLogin() {
   const handleEye = () => {
     setEye(!eye);
   };
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Ambil semua user dari localStorage
-    const users = JSON.parse(localStorage.getItem("users")) || [];
+    try {
+      const users = await profileAPI.getAll();
+      const userByusername = users.find((u) => u.username === username);
+      if (!userByusername) {
+        alert("User tidak ditemukan!");
+        return;
+      }
 
-    // Cari user yang username & password cocok
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
+      if (userByusername.password !== password) {
+        alert("password salah!");
+        return;
+      }
+      // ✅ SIMPAN USER KE LOCALSTORAGE
+      localStorage.setItem("loggedInUser", JSON.stringify(userByusername));
 
-    if (user) {
-      alert("Login berhasil!");
-      // Bisa simpan status login ke localStorage
-      localStorage.setItem("loggedInUser", JSON.stringify(user));
-      navigate("/home"); // Redirect ke halaman home
-    } else {
-      alert(
-        "Username atau password salah! Cek kembali. atau daftar jika belum punya akun"
-      );
+      alert("login berhasil!");
+      navigate("/home");
+    } catch (error) {
+      alert(error.message);
       return;
     }
   };

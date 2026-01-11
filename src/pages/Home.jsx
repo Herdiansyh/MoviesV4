@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from "react";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
-import MovieSection from "../components/MovieSection";
+import MovieSection from "../components/movie/MovieSection";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";

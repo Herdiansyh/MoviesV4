@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
-import MovieSection from "../components/MovieSection";
+import MovieSection from "../components/movie/MovieSection";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchMovies } from "../store/movieSlice";
 

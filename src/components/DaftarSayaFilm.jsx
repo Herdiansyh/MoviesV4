@@ -1,5 +1,5 @@
 import React from "react";
-import MovieSection from "./MovieSection";
+import MovieSection from "./movie/MovieSection";
 
 export default function DaftarSayaFilm({ myList }) {
   return (

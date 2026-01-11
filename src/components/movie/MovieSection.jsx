@@ -1,6 +1,6 @@
 // src/components/MovieSection.jsx
 import React, { useRef, useState } from "react";
-import "../index.css";
+import "../../index.css";
 import PopupMovie from "./PopupMovie";
 
 export default function MovieSection({

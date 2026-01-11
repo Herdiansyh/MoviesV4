@@ -57,7 +57,7 @@ export default function Pembayaran({ footer }) {
             <h3 className="text-[18px] my-3">Metode Pembayaran</h3>
             <div className="flex gap-2">
               <div className="border p-2 gap-2 border-gray-100 rounded-lg flex">
-                <input type="radio" />{" "}
+                <input type="radio" name="paymentMethod" />{" "}
                 <img
                   src="/assets/logo/Visa_Logo.png"
                   alt="visa"
@@ -68,9 +68,20 @@ export default function Pembayaran({ footer }) {
                   alt="visa"
                   className="w-10 bg-white p-1  rounded-sm h-5 "
                 />
+                <img
+                  src="/assets/logo/american.png"
+                  alt="american express"
+                  className="w-10 bg-blue p-1  rounded-sm h-5 "
+                />
               </div>
-              <div className="border p-2 border-gray-100 rounded-lg flex-1">
-                <input type="radio" /> sadwadwada
+              <div className="border p-2 flex border-gray-100 rounded-lg flex-1">
+                <input type="radio" name="paymentMethod" />{" "}
+                <img
+                  src="/assets/logo/bca.png"
+                  alt="bca"
+                  className="w-10 bg-transparent p-1  rounded-sm h-5 "
+                />
+                <span className="text-sm"> BCA Virtual Account</span>
               </div>
             </div>
             <h3 className="text-[18px] my-3">Kode Voucher (Jika ada)</h3>

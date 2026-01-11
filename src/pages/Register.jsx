@@ -7,7 +7,7 @@ import ButtonMasukGoogle from "../components/ButtonMasukGoogle";
 
 export default function Register() {
   return (
-    <div className="bg-[url('/img/bg-register.jpg')] bg-cover bg-center min-h-screen flex justify-center items-center p-4">
+    <div className="bg-[url('/img/bg-register.jpg')]  bg-cover bg-center min-h-screen flex justify-center items-center p-10">
       <div className="bg-[#272727CC] p-8 rounded-2xl w-full max-w-md ">
         <div className="flex justify-center mb-4">
           <img src="/img/logoChil.png" alt="Logo" className="lg:w-40 w-30" />
