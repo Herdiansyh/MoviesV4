@@ -55,7 +55,7 @@ export default function Profile({ footer }) {
       dispatch(clearProfile());
 
       alert("Profil berhasil dihapus ✅");
-      window.location.href = "/register";
+      window.location.href = "/";
     } catch (error) {
       alert(error);
     }
